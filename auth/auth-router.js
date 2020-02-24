@@ -6,7 +6,7 @@ const secret = require('../config/secrets.js');
 
 const Users = require('../auth/authHelper.js');
 
-//
+// /api/auth/register  √√√
 // username = "username", "password"; both required.
 
 router.post('/register', (req, res) => {
@@ -33,7 +33,7 @@ router.post('/register', (req, res) => {
 });
 
 
-// 
+//  /api/auth/login √√√
 router.post('/login', (req, res) => {
   let { username, password } = req.body;  //postman raw JSON 
 
@@ -71,6 +71,8 @@ function generateToken(user) {
   }
 
   const token = jwt.sign(payload, secret.jwtSecret, options); 
+
+  return token;    // very important to return token! 
 }
 
 module.exports = router;
