@@ -20,7 +20,7 @@ server.use('/api/jokes', authenticate, jokesRouter);
 // testing server 
 // yass √√ 
 server.get('/', (req, res) => {
-    res.send(`<h1> Sprint Challenge Authentication! 👸`)
+    res.status(200).json({api: "Sprint Challenge Authentication! 👸 "});
 });
 
 
