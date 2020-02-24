@@ -2,6 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs'); // hashing PW 
 
 const jwt = require('jsonwebtoken');
+const secret = require('../config/secrets.js'); 
 
 const Users = require('../auth/authHelper.js');
 
@@ -57,5 +58,19 @@ router.post('/login', (req, res) => {
       });
     });
 });
+
+
+function generateToken(user) {
+  const payload= {
+    subject: user.id,
+    username: user.username,
+  };
+
+  const options = {
+    expiresIn: "1d",
+  }
+
+  const token = jwt.sign(payload, secret.jwtSecret, options); 
+}
 
 module.exports = router;

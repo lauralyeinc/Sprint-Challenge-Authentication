@@ -6,6 +6,8 @@ const authenticate = require('../auth/authenticate-middleware.js');
 const authRouter = require('../auth/auth-router.js');
 const jokesRouter = require('../jokes/jokes-router.js');
 
+const jwt = require('jsonwebtoken');
+
 const server = express();
 
 server.use(helmet());
@@ -16,14 +18,14 @@ server.use('/api/auth', authRouter);
 server.use('/api/jokes', authenticate, jokesRouter);
 
 // testing server 
-// 
+// yass √√ 
 server.get('/', (req, res) => {
-    res.send(`<h1> Spring Challenge Authentication! 👸`)
+    res.send(`<h1> Sprint Challenge Authentication! 👸`)
 });
 
 
 // testing token 
-// 
+//  yass √√
 server.get('/token', (req, res) => {
     const payload= {
         subject: 'testertoken',
