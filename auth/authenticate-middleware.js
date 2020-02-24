@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const secret = require('../config/secrets.js');
 
-module.exports = (req, res, next) => {
+module.exports = (req, res, next) => { 
   const token = req.headers.authorization;
 
   if (token) {
@@ -10,14 +10,14 @@ module.exports = (req, res, next) => {
       if (error) {
         res.status(401).json({ message: ' You shall not pass, bad or expired Token 🔒'})
       } else {
-        req.decodedJwt = decodedToken;
+        req.username = decodedToken.username;
         next();   
       } 
     })
   } else {
     res.status(401).json({ message: ' You shall not enter, no token or bad token. 🔒'}); 
   }
-}
+}; 
 
 
 /* 

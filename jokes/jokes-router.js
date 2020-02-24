@@ -2,6 +2,9 @@ const axios = require('axios');
 
 const router = require('express').Router();
 
+
+// /api/jokes   
+// middleware is server.js not sure if it needs to be a method() to work! 
 router.get('/', (req, res) => {
   const requestOptions = {
     headers: { accept: 'application/json' },
