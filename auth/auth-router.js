@@ -3,13 +3,59 @@ const bcrypt = require('bcryptjs'); // hashing PW
 
 const jwt = require('jsonwebtoken');
 
+const Users = require('../auth/authHelper.js');
+
+//
+// username = "username", "password"; both required.
 
 router.post('/register', (req, res) => {
-  // implement registration
+  let user = req.body;
+
+  console.log(user);
+
+  const hash = bcrypt.hashSync(user.password, 10);
+
+  console.log(hash);
+
+  user.password = hash;
+
+  Users.add(user)
+    .then(saved => {
+      res.status(201).json(saved);
+    })
+    .catch(error => {
+      console.log('error', error);
+      res.status(500).json({
+        message: 'Failed to register a new user. '
+      });
+    });
 });
 
+
+// 
 router.post('/login', (req, res) => {
-  // implement login
+  let { username, password } = req.body;  //postman raw JSON 
+
+  Users.findBy({ username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        console.log(user);
+
+        const token = generateToken(user);
+
+        res.status(200).json({ message: `Welcome 👋🏻  ${user.username}! `, token: token, 
+      });
+      } else {
+        res.status(401).json({ message: ' You shall not pass, bad token! 🙅‍♀️'})
+      }
+    })
+    .catch(error => {
+      console.log("error", error);
+      res.status(500).json({
+        message: ` You shall not enter, no token 😭` 
+      });
+    });
 });
 
 module.exports = router;
